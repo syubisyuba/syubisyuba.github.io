@@ -296,7 +296,7 @@ function updateTypingHud() {
   if (typingScoreElement) typingScoreElement.textContent = String(typingScore);
   if (typingLevelElement) typingLevelElement.textContent = String(typingLevel);
   if (typingBestElement) typingBestElement.textContent = String(typingBest);
-  if (typingLifeElement) typingLifeElement.textContent = '♥'.repeat(typingLives) + '♡'.repeat(maxTypingLives - typingLives);
+  if (typingLifeElement) typingLifeElement.innerHTML = Array.from({ length: maxTypingLives }, (_, index) => `<span class="life-heart ${index < typingLives ? 'is-full' : 'is-empty'}">♥</span>`).join('');
 }
 function drawTyping() {
   if (!typingContext || !typingCanvas) return;
