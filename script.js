@@ -212,6 +212,7 @@ pauseButton?.addEventListener('click', togglePause);
 restartButton?.addEventListener('click', restartGame);
 
 window.addEventListener('keydown', (event) => {
+  if (event.target instanceof HTMLElement && event.target.closest('#typing-input')) return;
   const keyMap = { ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down', ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' };
   if (event.code === 'Space') {
     event.preventDefault();
@@ -259,3 +260,70 @@ projectModal?.addEventListener('click', (event) => { if (event.target === projec
 
 resetState();
 applyLanguage(currentLanguage);
+
+// Typing Defense: an independent terminal-style mini-game.
+const typingCanvas = document.querySelector('#typing-canvas');
+const typingContext = typingCanvas?.getContext('2d');
+const typingInput = document.querySelector('#typing-input');
+const typingFire = document.querySelector('#typing-fire');
+const typingStart = document.querySelector('#typing-start');
+const typingPause = document.querySelector('#typing-pause');
+const typingRestart = document.querySelector('#typing-restart');
+const typingScoreElement = document.querySelector('#typing-score');
+const typingLevelElement = document.querySelector('#typing-level');
+const typingBestElement = document.querySelector('#typing-best');
+const typingLifeElement = document.querySelector('#typing-life');
+const typingStatus = document.querySelector('#typing-status');
+const typingLevelBanner = document.querySelector('#typing-level-banner');
+const typingBannerLevel = document.querySelector('#typing-banner-level');
+const typingWords = ['apple', 'river', 'cloud', 'green', 'quiet', 'bright', 'summer', 'orange', 'window', 'garden', 'coffee', 'paper', 'music', 'planet', 'simple', 'morning', 'forest', 'yellow', 'little', 'friend', 'water', 'stone', 'house', 'walk', 'story', 'smile', 'light', 'bread', 'chair', 'table', 'happy', 'world', 'dream', 'heart', 'strong', 'open', 'fresh', 'hello', 'today'];
+const typingBonusWord = 'LIFE';
+let typingRunning = false;
+let typingPaused = false;
+let typingFrame = null;
+let typingLastTime = 0;
+let typingSpawnTimer = 0;
+let typingScore = 0;
+let typingLevel = 1;
+const maxTypingLives = 5;
+let typingUsedWords = new Set();
+let typingLevelTimer = null;
+let typingBest = Number(localStorage.getItem('soobeen-typing-best')) || 0;
+let typingLives = 3;
+let fallingWords = [];
+
+function updateTypingHud() {
+  if (typingScoreElement) typingScoreElement.textContent = String(typingScore);
+  if (typingLevelElement) typingLevelElement.textContent = String(typingLevel);
+  if (typingBestElement) typingBestElement.textContent = String(typingBest);
+  if (typingLifeElement) typingLifeElement.textContent = '♥'.repeat(typingLives) + '♡'.repeat(maxTypingLives - typingLives);
+}
+function drawTyping() {
+  if (!typingContext || !typingCanvas) return;
+  typingContext.fillStyle = '#020908'; typingContext.fillRect(0, 0, typingCanvas.width, typingCanvas.height);
+  typingContext.strokeStyle = 'rgba(90,255,170,.08)';
+  for (let y = 0; y < typingCanvas.height; y += 24) { typingContext.beginPath(); typingContext.moveTo(0, y); typingContext.lineTo(typingCanvas.width, y); typingContext.stroke(); }
+  typingContext.font = '700 15px ui-monospace, SFMono-Regular, Consolas, monospace'; typingContext.textAlign = 'left';
+  fallingWords.forEach((word) => { typingContext.fillStyle = word.isBonus ? '#ffe66d' : '#5affa9'; typingContext.shadowColor = word.isBonus ? '#ffe66d' : '#5affa9'; typingContext.shadowBlur = 8; typingContext.fillText(word.text, word.x, word.y); typingContext.shadowBlur = 0; });
+}
+function spawnTypingWord() { const availableWords = typingWords.filter((text) => !typingUsedWords.has(text) && !fallingWords.some((word) => word.text === text)); if (!availableWords.length) return; const isBonus = typingScore > 0 && typingScore % 70 === 0 && !typingUsedWords.has(typingBonusWord); const text = isBonus ? typingBonusWord : availableWords[Math.floor(Math.random() * availableWords.length)]; typingUsedWords.add(text); fallingWords.push({ text, isBonus, x: 16 + Math.random() * Math.max(20, typingCanvas.width - 120), y: -8, speed: 16 + (typingLevel - 1) * 4 }); }
+function endTypingGame() { typingRunning = false; typingPaused = false; if (typingFrame) cancelAnimationFrame(typingFrame); typingFrame = null; if (typingPause) { typingPause.disabled = true; typingPause.textContent = 'Pause'; } if (typingStatus) typingStatus.textContent = 'Game over — press Restart to try again.'; drawTyping(); }
+function typingLoop(time) {
+  if (!typingRunning) return;
+  const delta = Math.min((time - typingLastTime) / 1000, .05); typingLastTime = time; typingSpawnTimer += delta;
+  const spawnEvery = Math.max(1.25, 2.8 - (typingLevel - 1) * .2);
+  if (typingSpawnTimer >= spawnEvery) { typingSpawnTimer = 0; spawnTypingWord(); }
+  fallingWords.forEach((word) => { word.y += word.speed * delta; });
+  const missed = fallingWords.filter((word) => word.y > typingCanvas.height + 8);
+  if (missed.length) { typingLives = Math.max(0, typingLives - missed.length); updateTypingHud(); }
+  fallingWords = fallingWords.filter((word) => word.y <= typingCanvas.height + 8);
+  drawTyping();
+  if (!typingLives) return endTypingGame();
+  typingFrame = requestAnimationFrame(typingLoop);
+}
+function startTypingGame() { if (typingRunning) return; typingRunning = true; typingPaused = false; typingLives = 3; typingScore = 0; typingLevel = 1; typingUsedWords = new Set(); fallingWords = []; typingSpawnTimer = 0; updateTypingHud(); if (typingLevelBanner) typingLevelBanner.hidden = true; if (typingPause) { typingPause.disabled = false; typingPause.textContent = 'Pause'; } if (typingStatus) typingStatus.textContent = 'Level 1 — warm-up speed.'; typingInput?.focus(); typingLastTime = performance.now(); typingFrame = requestAnimationFrame(typingLoop); }
+function toggleTypingPause() { if (!typingRunning || typingLevelTimer) return; typingPaused = !typingPaused; if (typingPaused) { if (typingFrame) cancelAnimationFrame(typingFrame); typingFrame = null; typingPause.textContent = 'Resume'; if (typingStatus) typingStatus.textContent = 'Paused.'; } else { typingPause.textContent = 'Pause'; typingStatus.textContent = `Level ${typingLevel} — back in action.`; typingLastTime = performance.now(); typingFrame = requestAnimationFrame(typingLoop); } }
+function restartTypingGame() { typingRunning = false; typingPaused = false; if (typingFrame) cancelAnimationFrame(typingFrame); typingFrame = null; if (typingLevelTimer) clearTimeout(typingLevelTimer); typingLevelTimer = null; startTypingGame(); }
+function showTypingLevelUp() { if (!typingRunning) return; typingPaused = true; if (typingFrame) cancelAnimationFrame(typingFrame); typingFrame = null; if (typingBannerLevel) typingBannerLevel.textContent = String(typingLevel); if (typingLevelBanner) typingLevelBanner.hidden = false; if (typingStatus) typingStatus.textContent = `Level ${typingLevel} reached.`; typingLevelTimer = setTimeout(() => { typingLevelTimer = null; if (!typingRunning) return; if (typingLevelBanner) typingLevelBanner.hidden = true; typingPaused = false; if (typingPause) typingPause.textContent = 'Pause'; typingLastTime = performance.now(); typingFrame = requestAnimationFrame(typingLoop); }, 1400); }
+function submitTypingWord() { if (!typingRunning || typingPaused || !typingInput) return; const guess = typingInput.value.trim().toLowerCase(); const index = fallingWords.findIndex((word) => word.text.toLowerCase() === guess); if (index >= 0) { const [hit] = fallingWords.splice(index, 1); typingScore += 10; if (hit.isBonus) { typingLives = Math.min(maxTypingLives, typingLives + 1); if (typingStatus) typingStatus.textContent = `LIFE collected — ${typingLives}/${maxTypingLives} hearts.`; } const nextLevel = Math.floor(typingScore / 50) + 1; const leveledUp = nextLevel > typingLevel; if (leveledUp) typingLevel = nextLevel; else if (!hit.isBonus && typingStatus) typingStatus.textContent = 'Target cleared.'; typingBest = Math.max(typingBest, typingScore); localStorage.setItem('soobeen-typing-best', String(typingBest)); updateTypingHud(); if (leveledUp) showTypingLevelUp(); } typingInput.value = ''; }
+typingStart?.addEventListener('click', startTypingGame); typingPause?.addEventListener('click', toggleTypingPause); typingRestart?.addEventListener('click', restartTypingGame); typingFire?.addEventListener('click', submitTypingWord); typingInput?.addEventListener('keydown', (event) => { if (event.key === 'Enter') submitTypingWord(); }); updateTypingHud(); drawTyping();
