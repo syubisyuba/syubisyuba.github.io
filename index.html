@@ -3,8 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="soobeen's experimental developer portfolio" />
-    <title>soobeen · Developer Portfolio</title>
+    <meta name="description" content="SOOBEEN — Software Engineer Portfolio" />
+    <meta property="og:title" content="SOOBEEN | Software Engineer Portfolio" />
+    <meta property="og:description" content="A software engineer portfolio spanning product, web, and AI experiences." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://syubisyuba.github.io/" />
+    <meta property="og:image" content="https://syubisyuba.github.io/og-image.svg" />
+    <meta property="og:image:alt" content="SOOBEEN software engineer portfolio" />
+    <title>SOOBEEN | Software Engineer Portfolio</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
@@ -13,82 +19,38 @@
     <div class="ambient ambient-two" aria-hidden="true"></div>
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Go to home"><span class="brand-mark">✳</span> SOOBEEN</a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-i18n="menu">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#experience">Experience</a>
-        <a href="#research">Research</a>
-        <a href="#contact">Contact</a>
-        <a href="#games">Games</a>
+        <a href="#home" data-i18n="navHome">Home</a><a href="#about" data-i18n="navAbout">About</a><a href="#projects" data-i18n="navProjects">Projects</a><a href="#experience" data-i18n="navExperience">Experience</a><a href="#research" data-i18n="navResearch">Research</a><a href="#contact" data-i18n="navContact">Contact</a><a href="#games" data-i18n="navGames">Games</a>
+        <span class="language-switch" aria-label="Language selector"><button type="button" data-language="ko">KO</button><span>|</span><button type="button" class="active" data-language="en">EN</button></span>
       </nav>
     </header>
 
     <main id="top">
       <section id="home" class="hero section-shell" aria-labelledby="hero-title">
-        <div class="eyebrow"><span class="status-dot"></span> PRODUCT-MINDED DEVELOPER <b>AVAILABLE TO CREATE</b></div>
-        <h1 id="hero-title">Ideas into<br /><em>working experiences.</em></h1>
-        <p class="hero-copy">I turn ambiguous problems into clear interfaces, useful products, and dependable systems.</p>
-        <div class="stack-list" aria-label="Experimental technology stack">
-          <span class="chip-lime">Frontend</span><span class="chip-coral">Backend</span><span class="chip-purple">AI</span>
-        </div>
-        <div class="scroll-note"><span>SCROLL TO EXPLORE</span><i></i></div>
+        <div class="eyebrow"><span class="status-dot"></span> <span data-i18n="eyebrow">PRODUCT-MINDED DEVELOPER</span> <b data-i18n="availability">AVAILABLE TO CREATE</b></div>
+        <h1 id="hero-title" data-i18n="heroTitle">Ideas into<br /><em>working experiences.</em></h1>
+        <p class="hero-copy" data-i18n="heroCopy">I turn ambiguous problems into clear interfaces, useful products, and dependable systems.</p>
+        <details class="stack-details"><summary data-i18n="stackSummary">Explore the stack</summary><div class="stack-detail-list"><span>React</span><span>TypeScript</span><span>Python</span><span>Node.js</span><span>Android</span><span>RAG</span><span>HTML5 Canvas</span></div></details>
+        <div class="stack-list" aria-label="Technology stack"><span class="chip-lime">Frontend</span><span class="chip-coral">Backend</span><span class="chip-purple">AI</span></div>
+        <div class="scroll-note"><span data-i18n="scroll">SCROLL TO EXPLORE</span><i></i></div>
       </section>
 
       <section id="about" class="bento-grid section-shell" aria-label="Profile summary">
-        <article class="card card-large">
-          <p class="card-label">ABOUT</p>
-          <h2>Clear structure,<br />sharp details.</h2>
-          <p>soobeen · fictional developer profile</p>
-          <span class="card-index">01 / 04</span>
-        </article>
-        <article class="card metric-card">
-          <p class="card-label">FOCUS</p>
-          <strong>Web · AI</strong>
-          <p>Making products faster to understand and easier to use.</p>
-          <span class="metric-orbit" aria-hidden="true">↗</span>
-        </article>
-        <article id="projects" class="card project-card">
-          <p class="card-label">SELECTED WORK</p>
-          <div class="project-row"><strong>CP Insight Dashboard</strong><span>01 ↗</span></div>
-          <div class="project-row"><strong>Flow Assist</strong><span>02 ↗</span></div>
-        </article>
-        <article id="experience" class="card detail-card">
-          <p class="card-label">EXPERIENCE</p>
-          <h3>Build, learn,<br />iterate.</h3>
-          <p>Hands-on practice across interfaces, APIs, and small product experiments.</p>
-        </article>
-        <article id="research" class="card detail-card research-card">
-          <p class="card-label">RESEARCH</p>
-          <h3>Curiosity<br />with intent.</h3>
-          <p>Exploring practical AI patterns, interaction design, and creative browser experiences.</p>
-        </article>
+        <article class="card card-large"><p class="card-label" data-i18n="aboutLabel">ABOUT</p><h2 data-i18n="aboutTitle">Clear structure,<br />sharp details.</h2><p data-i18n="aboutCopy">Software engineer focused on turning complex problems into useful product experiences.</p><span class="card-index">01 / 04</span></article>
+        <article class="card metric-card"><p class="card-label" data-i18n="focusLabel">FOCUS</p><strong>Web · AI</strong><p data-i18n="focusCopy">Making products faster to understand and easier to use.</p><span class="metric-orbit" aria-hidden="true">↗</span></article>
+        <article id="projects" class="card project-card"><p class="card-label" data-i18n="projectsLabel">SELECTED WORK</p><button class="project-row project-trigger" type="button" data-project="dashboard"><strong>CP Insight Dashboard</strong><span>01 ↗</span></button><button class="project-row project-trigger" type="button" data-project="flow"><strong>Flow Assist</strong><span>02 ↗</span></button></article>
+        <article id="experience" class="card detail-card"><p class="card-label" data-i18n="experienceLabel">EXPERIENCE</p><h3 data-i18n="experienceTitle">Build, learn,<br />iterate.</h3><p data-i18n="experienceCopy">14+ Years of Software Engineering experience in mobile &amp; system platforms.</p></article>
+        <article id="research" class="card detail-card research-card"><p class="card-label" data-i18n="researchLabel">RESEARCH</p><h3 data-i18n="researchTitle">Curiosity<br />with intent.</h3><p data-i18n="researchCopy">Exploring practical AI patterns, interaction design, and creative browser experiences.</p></article>
       </section>
 
-      <section id="games" class="game-section section-shell" aria-labelledby="games-title">
-        <div>
-          <p class="card-label">PLAYGROUND</p>
-          <h2 id="games-title">Worm Run <span>Playground</span></h2>
-          <p>Collect food, grow longer, and stay alive. Keyboard, WASD, and touch controls are supported.</p>
-        </div>
-        <div class="game-shell">
-          <div class="game-hud"><span>Score <strong id="score">0</strong></span><span>Best <strong id="high-score">0</strong></span><span id="game-status">Ready</span></div>
-          <canvas id="game-canvas" width="480" height="320" aria-label="Worm Run game board"></canvas>
-          <div class="game-actions"><button id="start-game" type="button">Start</button><button id="pause-game" type="button" disabled>Pause</button><button id="restart-game" type="button">Restart</button></div>
-          <div class="touch-controls" aria-label="Touch controls"><button type="button" data-direction="up" aria-label="Move up">↑</button><div><button type="button" data-direction="left" aria-label="Move left">←</button><button type="button" data-direction="down" aria-label="Move down">↓</button><button type="button" data-direction="right" aria-label="Move right">→</button></div></div>
-        </div>
-      </section>
+      <section id="games" class="game-section section-shell" aria-labelledby="games-title"><div><p class="card-label" data-i18n="playgroundLabel">PLAYGROUND</p><h2 id="games-title">Worm Run <span data-i18n="playgroundTitle">Playground</span></h2><p data-i18n="gameCopy">A mini-game built with the HTML5 Canvas API and JavaScript. Collect food, grow longer, and stay alive.</p></div><div class="game-shell"><div class="game-hud"><span><span data-i18n="scoreLabel">Score</span> <strong id="score">0</strong></span><span><span data-i18n="bestLabel">Best</span> <strong id="high-score">0</strong></span><span id="game-status" data-i18n="ready">Ready</span></div><canvas id="game-canvas" width="480" height="320" aria-label="Worm Run game board"></canvas><div class="game-actions"><button id="start-game" type="button" data-i18n="start">Start</button><button id="pause-game" type="button" disabled data-i18n="pause">Pause</button><button id="restart-game" type="button" data-i18n="restart">Restart</button></div><div class="touch-controls" aria-label="Touch controls"><button type="button" data-direction="up" aria-label="Move up">↑</button><div><button type="button" data-direction="left" aria-label="Move left">←</button><button type="button" data-direction="down" aria-label="Move down">↓</button><button type="button" data-direction="right" aria-label="Move right">→</button></div></div></div></section>
 
-      <section id="contact" class="contact-section section-shell" aria-labelledby="contact-title">
-        <div><p class="card-label">CONTACT</p><h2 id="contact-title">Have a good<br /><em>idea?</em></h2></div>
-        <a class="contact-link" href="mailto:hello@soobeen.dev">hello@soobeen.dev ↗</a>
-      </section>
+      <section id="contact" class="contact-section section-shell" aria-labelledby="contact-title"><div><p class="card-label" data-i18n="contactLabel">CONTACT</p><h2 id="contact-title" data-i18n="contactTitle">Have a good<br /><em>idea?</em></h2></div><div class="social-links"><a href="mailto:hello@soobeen.dev">hello@soobeen.dev ↗</a><a href="https://github.com/syubisyuba" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/soobeen-dev" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></section>
     </main>
 
-    <footer class="site-footer section-shell">
-      <span>© <span id="year"></span> SOOBEEN</span>
-      <span>Training portfolio · fictional profile</span>
-    </footer>
+    <footer class="site-footer section-shell"><span>© <span id="year"></span> SOOBEEN</span><span data-i18n="footerNote">Software Engineer Portfolio</span></footer>
+
+    <dialog id="project-modal" class="project-modal"><button class="modal-close" type="button" aria-label="Close">×</button><p class="card-label" id="modal-label">PROJECT</p><h2 id="modal-title"></h2><p id="modal-overview"></p><dl><div><dt data-i18n="contributionLabel">Contribution</dt><dd id="modal-contribution"></dd></div><div><dt data-i18n="stackLabel">Stack</dt><dd id="modal-stack"></dd></div><div><dt data-i18n="linksLabel">Links</dt><dd id="modal-links"></dd></div></dl></dialog>
   </body>
 </html>
