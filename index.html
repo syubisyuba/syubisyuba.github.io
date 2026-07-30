@@ -15,14 +15,18 @@
       <a class="brand" href="#top" aria-label="Go to home"><span class="brand-mark">✳</span> SOOBEEN</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+        <a href="#home">Home</a>
         <a href="#about">About</a>
-        <a href="#work">Work</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#research">Research</a>
+        <a href="#contact">Contact</a>
         <a href="#games">Games</a>
       </nav>
     </header>
 
     <main id="top">
-      <section class="hero section-shell" aria-labelledby="hero-title">
+      <section id="home" class="hero section-shell" aria-labelledby="hero-title">
         <div class="eyebrow"><span class="status-dot"></span> PRODUCT-MINDED DEVELOPER <b>AVAILABLE TO CREATE</b></div>
         <h1 id="hero-title">Ideas into<br /><em>working experiences.</em></h1>
         <p class="hero-copy">I turn ambiguous problems into clear interfaces, useful products, and dependable systems.</p>
@@ -45,20 +49,40 @@
           <p>Making products faster to understand and easier to use.</p>
           <span class="metric-orbit" aria-hidden="true">↗</span>
         </article>
-        <article id="work" class="card project-card">
+        <article id="projects" class="card project-card">
           <p class="card-label">SELECTED WORK</p>
           <div class="project-row"><strong>CP Insight Dashboard</strong><span>01 ↗</span></div>
           <div class="project-row"><strong>Flow Assist</strong><span>02 ↗</span></div>
+        </article>
+        <article id="experience" class="card detail-card">
+          <p class="card-label">EXPERIENCE</p>
+          <h3>Build, learn,<br />iterate.</h3>
+          <p>Hands-on practice across interfaces, APIs, and small product experiments.</p>
+        </article>
+        <article id="research" class="card detail-card research-card">
+          <p class="card-label">RESEARCH</p>
+          <h3>Curiosity<br />with intent.</h3>
+          <p>Exploring practical AI patterns, interaction design, and creative browser experiences.</p>
         </article>
       </section>
 
       <section id="games" class="game-section section-shell" aria-labelledby="games-title">
         <div>
           <p class="card-label">PLAYGROUND</p>
-          <h2 id="games-title">Games <span>Coming soon</span></h2>
-          <p>A keyboard-and-touch Canvas game is coming in the next loop.</p>
+          <h2 id="games-title">Worm Run <span>Playground</span></h2>
+          <p>Collect food, grow longer, and stay alive. Keyboard, WASD, and touch controls are supported.</p>
         </div>
-        <div class="game-placeholder" role="status">GAME AREA · COMING SOON</div>
+        <div class="game-shell">
+          <div class="game-hud"><span>Score <strong id="score">0</strong></span><span>Best <strong id="high-score">0</strong></span><span id="game-status">Ready</span></div>
+          <canvas id="game-canvas" width="480" height="320" aria-label="Worm Run game board"></canvas>
+          <div class="game-actions"><button id="start-game" type="button">Start</button><button id="pause-game" type="button" disabled>Pause</button><button id="restart-game" type="button">Restart</button></div>
+          <div class="touch-controls" aria-label="Touch controls"><button type="button" data-direction="up" aria-label="Move up">↑</button><div><button type="button" data-direction="left" aria-label="Move left">←</button><button type="button" data-direction="down" aria-label="Move down">↓</button><button type="button" data-direction="right" aria-label="Move right">→</button></div></div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact-section section-shell" aria-labelledby="contact-title">
+        <div><p class="card-label">CONTACT</p><h2 id="contact-title">Have a good<br /><em>idea?</em></h2></div>
+        <a class="contact-link" href="mailto:hello@soobeen.dev">hello@soobeen.dev ↗</a>
       </section>
     </main>
 
